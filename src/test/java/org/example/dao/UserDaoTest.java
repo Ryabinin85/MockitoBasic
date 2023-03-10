@@ -8,10 +8,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UserDaoTest {
     private static User user;
-    private static final UserDaoImpl userDaoImpl = new UserDaoImpl();
+    private static final UserDaoImpl out = mock(UserDaoImpl.class);
 
     private final String USER_IVAN = "Ivan";
     private final String USER_IGOR = "Igor";
@@ -26,17 +28,20 @@ class UserDaoTest {
 
     @Test
     void shouldFindUserByNameIfExist() {
-        assertEquals(user, userDaoImpl.getUserByName(USER_IVAN));
+        when(out.getUserByName(USER_IVAN)).thenReturn(user);
+        assertEquals(user, out.getUserByName(USER_IVAN));
     }
 
     @Test
     void shouldReturnNullIfUserNotExist() {
-        assertNull(userDaoImpl.getUserByName(USER_ALEX));
+        when(out.getUserByName(USER_ALEX)).thenReturn(null);
+        assertNull(out.getUserByName(USER_ALEX));
     }
 
 
     @Test
     void findAllUsers() {
-        assertEquals(userDaoImpl.findAllUsers(), users);
+        when(out.findAllUsers()).thenReturn(users);
+        assertEquals(out.findAllUsers(), users);
     }
 }
